@@ -121,4 +121,7 @@ document.addEventListener("click", (e)=>{
         audio.pause();
     }
 })
+document.addEventListener("dblclick", (e)=>{ 
+    document.body.classList.toggle("dark");   
+    })
 
