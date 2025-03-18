@@ -15,9 +15,9 @@ function getAPI(){
         // }
         for(let i = 0; i < ayahsLength; i++){
             /*.replaceAll("۞", " ")*/
-            let text = data.data.surahs[11].ayahs[i].text;
+            let text = data.data.surahs[11].ayahs[i].text.replaceAll("۞", " ");
             let num = data.data.surahs[11].ayahs[i].numberInSurah;
-            console.log(`${num} - ${text}`);
+            // console.log(`${num} - ${text}`);
             let content = document.createElement("div");
             content.className = "ayah";
             content.id = num;
@@ -63,39 +63,40 @@ function getAPI(){
 }
 getAPI()
 function getAudio(id, src, ele){
-
+    ele.forEach((e)=>{
+        let children = e.children[0];
+        if(children){
+            console.log(children)
+            e.classList.remove("played")
+            children.remove()
+        }
+    })
     let curId = id - 1;
     let audio = src[curId].audio;
+    let ayah = document.getElementById(`${id}`);
     let audioTag = document.createElement("audio");
     audioTag.src = audio;
-    let ayah = document.getElementById(`${id}`);
     ayah.appendChild(audioTag);
-    // console.log(ayah.children[0])
-    
-    const styleValue = window.getComputedStyle(ayah).getPropertyValue("background-color");
     if(!ayah.classList.contains("played")){
         ayah.classList.add("played");
         audioTag.play();
-    
-    
-    setInterval(()=>{
-        if(audioTag.paused){
+        setInterval(()=>{
+        let dur = audioTag.duration;          
+        let seconds = audioTag.currentTime;
+        if(dur == seconds){
             ele.forEach((e)=>{
                 e.classList.remove("played")
             });
             id++;
             let next = document.getElementById(`${id}`);
-            let height = next.offsetHeight;
-            // window.scrollBy(0, height);
             next.classList.add("played");
-            
             audio = src[id-1].audio;
             audioTag.src = audio;
+            next.scrollIntoView({ behavior: "smooth" });
             next.appendChild(audioTag);
             audioTag.play();
             
         }
-    
     })
 }
 }
@@ -116,11 +117,8 @@ document.addEventListener("click", (e)=>{
     
     if(e.target.classList.contains("played")){
         let audio = e.target.children[0];
-        // audio.currentTime = 0;
-        // console.log(audio)
+        e.target.classList.remove("played");
         audio.pause();
-    }else{
-        console.log(e.target.children[0]);
     }
 })
 
