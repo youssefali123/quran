@@ -8,14 +8,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
+    html{
+        scroll-behavior: smooth;
+        scroll-padding-top: 10%;
+    }
     *{
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-    }
-    html{
-        scroll-behavior: smooth;
-        scroll-padding-top: 10px;
     }
     body{
         font-family: "Amiri", serif;
@@ -30,6 +30,49 @@
         padding: 10px 4px;
         border-radius: 10px;
     }
+    .container{
+        width: 70%;
+        /* background-color: red; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        border-left: 1px solid #00BCD4;
+        border-right: 1px solid #00BCD4;
+        box-shadow: 6px 2px 8px #363836;
+        min-height: 200px;
+    }
+    .container #choose{
+        width: 100%;
+        background-color: #088d3a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        gap: 10px;
+        input{
+            width: 30%;
+            padding: 8px;
+            outline: none;
+            border: none;
+            font-weight: bold;
+            border-radius: 5px;
+            border: 1px solid #00BCD4;
+            /* min-height: ; */
+        }
+        input:focus{
+            outline: none;
+        }
+        button{
+            outline: none;
+            border: none;
+            width: fit-content;
+            border-radius: 5px;
+            padding: 8px;
+            cursor: pointer;
+        }
+    }
     #read{
         display: flex;
         padding: 10px;
@@ -41,15 +84,34 @@
     }
     .ayah{
         user-select: none;
+        text-wrap: balance;
     }
     .dark{
         background-image: linear-gradient(to left, rgb(0 0 0), rgb(15 15 13));
         color: #e2e0dd;
     }
+    @media screen and (max-width: 768px){
+        .container{
+            width: 82%;
+            min-width: 82%;
+        }
+    }    
+    @media screen and (max-width: 480px) {
+        .container{
+            width: 95%;
+            min-width: 97%;
+        }
+    }
 </style>
 </head>
 <body>
-    <div id="read"></div>
+    <div class="container">
+        <div id="choose">
+            <input type="text" name="" id="ayah">
+            <button id="btn">get ayah</button>
+        </div>
+        <div id="read"></div>
+    </div>
     <script src="app.js"></script>
 </body>
 </html>

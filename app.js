@@ -1,22 +1,22 @@
 let read = document.getElementById("read");
 
 
-function getAPI(){
+function getAPI(ayahNum){
     let div = document.createElement("div");
     fetch("https://api.alquran.cloud/v1/quran/ar.alafasy").then( (res)=>{
         return res.json()
     }).then((data)=>{
         // console.log(data.data.surahs[1].ayahs[2].numberInSurah);
         let length = data.data.surahs.length;
-        let ayahsLength = data.data.surahs[11].ayahs.length;
+        let ayahsLength = data.data.surahs[ayahNum - 1].ayahs.length;
         // for (let i = 0; i < length; i++) {
         //     console.log(data.data.surahs[i].name);
         //     console.log(data.data.surahs[i].number);
         // }
         for(let i = 0; i < ayahsLength; i++){
             /*.replaceAll("۞", " ")*/
-            let text = data.data.surahs[11].ayahs[i].text.replaceAll("۞", " ");
-            let num = data.data.surahs[11].ayahs[i].numberInSurah;
+            let text = data.data.surahs[ayahNum-1].ayahs[i].text.replaceAll("۞", " ");
+            let num = data.data.surahs[ayahNum-1].ayahs[i].numberInSurah;
             // console.log(`${num} - ${text}`);
             let content = document.createElement("div");
             content.className = "ayah";
@@ -24,8 +24,6 @@ function getAPI(){
             content.innerHTML = `${text} (${num})`;
             div.innerHTML += `(${num}) - ${text} `;
             read.appendChild(content);
-            // document.body.appendChild(content);
-            // document.body.appendChild(document.createElement("br"))
         }
     })
     document.addEventListener("click", (e)=>{
@@ -36,32 +34,14 @@ function getAPI(){
             fetch("https://api.alquran.cloud/v1/quran/ar.alafasy").then( (res)=>{
                 return res.json()
             }).then((data)=>{
-                // let audio = data.data.surahs[11].ayahs[id-1].audio;
-                // let audioTag = document.createElement("audio");
-                // audioTag.src = audio;
-                // audioTag.play();
-                // console.log("audioTag.paused", audioTag.paused);
-                // let currentId = id - 1;
-                // ayah.style.backgroundColor = "red";
-                let src = data.data.surahs[11].ayahs;
+                let src = data.data.surahs[ayahNum-1].ayahs;
                 getAudio(id, src, ele);
-                // setInterval(()=>{
-                //     if(audioTag.paused){
-                //         ayah.style.backgroundColor = "#f9f8f6";
-                //         currentId++;
-                //         document.getElementById(`${currentId + 1}`).style.backgroundColor = "red";
-                //         audio = data.data.surahs[11].ayahs[currentId].audio;
-                //         audioTag.src = audio;
-                //         audioTag.play();
-                //     }
-                // })
-                
             })
             
         }
     })
 }
-getAPI()
+// getAPI(60)
 function getAudio(id, src, ele){
     ele.forEach((e)=>{
         let children = e.children[0];
@@ -77,6 +57,8 @@ function getAudio(id, src, ele){
     let audioTag = document.createElement("audio");
     audioTag.src = audio;
     ayah.appendChild(audioTag);
+    // ayah.classList.add("played");
+    // console.log(ayah)
     if(!ayah.classList.contains("played")){
         ayah.classList.add("played");
         audioTag.play();
@@ -85,36 +67,25 @@ function getAudio(id, src, ele){
         let seconds = audioTag.currentTime;
         if(dur == seconds){
             ele.forEach((e)=>{
-                e.classList.remove("played")
+                e.classList.remove("played");
             });
             id++;
             let next = document.getElementById(`${id}`);
-            next.classList.add("played");
-            audio = src[id-1].audio;
-            audioTag.src = audio;
-            next.scrollIntoView({ behavior: "smooth" });
-            next.appendChild(audioTag);
-            audioTag.play();
+            if(next){
+                next.classList.add("played");
+                audio = src[id-1].audio;
+                audioTag.src = audio;
+                next.scrollIntoView({ behavior: "smooth" });
+                next.appendChild(audioTag);
+                audioTag.play();
+            }
             
         }
     })
 }
 }
 
-
-function getData(ayahNum){
-        let myData;
-        fetch("https://api.alquran.cloud/v1/quran/ar.alafasy").then( (res)=>{
-            return res.json()
-        }).then((data)=>{
-            myData = data.data.surahs[ayahNum - 1];
-        })
-        return myData;
-    // return
-}
-
 document.addEventListener("click", (e)=>{
-    
     if(e.target.classList.contains("played")){
         let audio = e.target.children[0];
         e.target.classList.remove("played");
@@ -122,6 +93,17 @@ document.addEventListener("click", (e)=>{
     }
 })
 document.addEventListener("dblclick", (e)=>{ 
-    document.body.classList.toggle("dark");   
-    })
-
+    document.body.classList.toggle("dark"); 
+    window.localStorage.setItem("dark", document.body.classList.contains("dark"));  
+})
+window.addEventListener("load", ()=>{
+    if(window.localStorage.getItem("dark") == "true"){
+        document.body.classList.add("dark");
+    }
+})
+let ayah = document.getElementById("ayah");
+let btn = document.getElementById("btn");
+btn.addEventListener("click", ()=>{
+    read.innerHTML = "";
+    getAPI(parseInt(ayah.value));
+})
