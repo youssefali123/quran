@@ -2,6 +2,7 @@ let read = document.getElementById("read");
 
 
 function getAPI(ayahNum){
+    read.innerHTML = "";
     let div = document.createElement("div");
     fetch("https://api.alquran.cloud/v1/quran/ar.alafasy").then( (res)=>{
         return res.json()
@@ -13,15 +14,26 @@ function getAPI(ayahNum){
         //     console.log(data.data.surahs[i].name);
         //     console.log(data.data.surahs[i].number);
         // }
+        const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
         for(let i = 0; i < ayahsLength; i++){
             /*.replaceAll("۞", " ")*/
             let text = data.data.surahs[ayahNum-1].ayahs[i].text.replaceAll("۞", " ");
             let num = data.data.surahs[ayahNum-1].ayahs[i].numberInSurah;
             // console.log(`${num} - ${text}`);
             let content = document.createElement("div");
+            let words = text.split(" ");
+            let word = document.createElement("span");
+            words.forEach((word)=>{
+                let span = document.createElement("span");
+                span.innerHTML = `${word} `;
+                // content.appendChild(span);
+            })
+            // console.log(words)
             content.className = "ayah";
             content.id = num;
-            content.innerHTML = `${text} (${num})`;
+            num = num.toString().replace(/\d/g, d => arabicNumbers[d])
+            
+            content.innerHTML = `${text} <lable class="ayahNum">﴿${num}﴾</lable>`;
             div.innerHTML += `(${num}) - ${text} `;
             read.appendChild(content);
         }
@@ -34,17 +46,19 @@ function getAPI(ayahNum){
             fetch("https://api.alquran.cloud/v1/quran/ar.alafasy").then( (res)=>{
                 return res.json()
             }).then((data)=>{
+                // 2_1  2 >> sura num  , 1 >> ayah num
+                // nasser elqtami : https://the-quran-project.github.io/Quran-Audio/Data/3/2_1.mp3
                 let src = data.data.surahs[ayahNum-1].ayahs;
-                getAudio(id, src, ele);
+                getAudio(id, src, ele, ayahNum);
             })
             
         }
     })
 }
 // getAPI(60)
-function getAudio(id, src, ele){
+function getAudio(id, src, ele, n){
     ele.forEach((e)=>{
-        let children = e.children[0];
+        let children = e.getElementsByTagName("audio")[0];
         if(children){
             console.log(children)
             e.classList.remove("played")
@@ -52,7 +66,9 @@ function getAudio(id, src, ele){
         }
     })
     let curId = id - 1;
-    let audio = src[curId].audio;
+    // let audio = src[curId].audio;
+    
+    let audio = `https://the-quran-project.github.io/Quran-Audio/Data/3/${n}_${id}.mp3`;
     let ayah = document.getElementById(`${id}`);
     let audioTag = document.createElement("audio");
     audioTag.src = audio;
@@ -60,8 +76,9 @@ function getAudio(id, src, ele){
     audioTag.pause();
     // ayah.classList.add("played");
     // console.log(ayah)
-    if(!ayah.classList.contains("played")){
-        ayah.classList.add("played");
+    ayah.classList.toggle("played");
+    if(ayah.classList.contains("played")){
+        // ayah.classList.add("played");
         audioTag.play();
         setInterval(()=>{
         let dur = audioTag.duration;          
@@ -71,7 +88,7 @@ function getAudio(id, src, ele){
                 id = 0;
                 console.log("last ayah");
                 ele.forEach((e)=>{
-                    let children = e.children[0];
+                    let children = e.getElementsByTagName("audio")[0];
                     if(children){
                         console.log(children)
                         e.classList.remove("played")
@@ -87,7 +104,9 @@ function getAudio(id, src, ele){
             });
             if(next){
                 next.classList.add("played");
-                audio = src[id-1].audio;
+                // audio = src[id-1].audio;
+                audio = `https://the-quran-project.github.io/Quran-Audio/Data/3/${n}_${id}.mp3`;
+
                 audioTag.src = audio;
                 next.scrollIntoView({ behavior: "smooth" });
                 next.appendChild(audioTag);
@@ -118,11 +137,12 @@ btn.addEventListener("click", ()=>{
 })
 document.addEventListener("click", (e)=>{
     if(e.target.classList.contains("played")){
-        let audio = e.target.children[0];
+        let audio = e.target.getElementsByTagName("audio")[0];
         console.log(audio)
-        audio.remove();
         e.target.classList.remove("played");
+        console.log(e.target.classList)
         audio.pause();
+        audio.remove();
     }
 })
 // function getData(num){
