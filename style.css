@@ -1,0 +1,179 @@
+/* Define CSS variables for easy theme management */
+:root {
+    --primary-color: #00BCD4;
+    --secondary-color: #7da807;
+    --text-color: #3b3c3d;
+    --background-color: #f9f8f6;
+    --dark-text-color: #e2e0dd;
+    --dark-background: linear-gradient(to left, rgb(0 0 0), rgb(15 15 13));
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth scrolling for the entire page */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 10%;
+}
+
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base styles with responsive typography and RTL support */
+body {
+    font-family: "Amiri", serif;
+    font-weight: bold;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    font-size: clamp(1em, 2.5vw, 1.5em); /* Responsive font size */
+    line-height: 2; /* Improved readability for Arabic text */
+    direction: rtl;
+    height: 100vh;
+    overflow: hidden; /* Assumes scrolling is handled by #read */
+}
+
+/* Specific class for divs needing padding and rounded corners */
+.content-box {
+    padding: 10px 4px;
+    border-radius: 10px;
+}
+
+/* Container with responsive width and subtle shadow */
+.container {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 15px auto;
+    border-left: 1px solid var(--primary-color);
+    border-right: 1px solid var(--primary-color);
+    box-shadow: 0 4px 6px var(--shadow-color); /* Modern shadow */
+    min-height: 200px;
+}
+
+/* Flexible control panel */
+.container #choose {
+    width: 100%;
+    background-color: #828e8145;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    gap: 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+#choose input,
+#choose button {
+    color: white;
+    padding: 8px;
+    outline: none;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    font-size: 1em;
+    border: 1px solid var(--secondary-color);
+    flex: 1; /* Grow to fill space */
+    min-width: 100px; /* Prevent excessive shrinking */
+}
+
+#choose input:focus,
+#choose button:focus {
+    background-color: #017a8a;
+    transform: scaleX(1.1);
+    outline: 2px solid #017a8a; /* Accessibility focus */
+    outline-offset: 2px;
+}
+
+#choose button {
+    width: fit-content;
+    cursor: pointer;
+}
+
+/* Scrollable content area with hidden scrollbar */
+#read {
+    display: flex;
+    padding: 20px; /* Increased for better spacing */
+    flex-wrap: wrap;
+    max-height: 90vh;
+    overflow: auto;
+    scroll-padding-top: 10%;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+#read::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+
+
+/* Verse styling with specific transitions */
+.ayah {
+    user-select: none;
+    text-wrap: balance;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    margin-bottom: 10px; /* Space between verses */
+    border-radius: 8px;
+}
+
+.ayah span {
+    margin: 0 0.2px;
+}
+
+.ayah:hover {
+    background-color: #e0f7fa; /* Optional hover effect */
+}
+
+/* Dark mode adjustments */
+.dark {
+    background: var(--dark-background);
+    color: var(--dark-text-color);
+}
+
+.dark .container {
+    border-color: #e2e0dd; /* Adjusted for visibility */
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+.dark .ayahNum {
+    background-color: #333; /* Better contrast in dark mode */
+}
+/* Highlighted state */
+.played {
+    background-color: var(--primary-color);
+    color: white;
+}
+.played:hover{
+    background-color: #00BCD4;
+}
+/* Verse numbers with enhanced styling */
+.ayahNum {
+    color: #33e407;
+    font-size: 0.8em;
+    margin-left: 5px;
+    padding: 2px 5px;
+    border-radius: 50%;
+    background-color: #e0f7fa;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 82%;
+        min-width: 82%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        width: 95%;
+        min-width: 97%;
+    }
+}
