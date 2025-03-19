@@ -1,7 +1,7 @@
 // Global variables
 let read = document.getElementById("read");
 let currentSurahData;
-
+let allSurahs = document.getElementById("allSurahs");
 // Fetch and display surah data
 function getAPI(surahNum) {
     read.innerHTML = "<p>Loading...</p>";
@@ -13,6 +13,14 @@ function getAPI(surahNum) {
             return res.json();
         })
         .then(data => {
+            for (let i = 0; i < data.data.surahs.length; i++) {
+                let div = document.createElement("div");
+                // option.value = data.data.surahs[i].number;
+                div.innerHTML = data.data.surahs[i].name;
+                div.id = data.data.surahs[i].number;
+                div.setAttribute("onclick", "getAPI(this.id)");
+                allSurahs.appendChild(div);
+            }
             currentSurahData = data.data.surahs[surahNum - 1];
             displaySurah(currentSurahData);
         })
@@ -33,12 +41,16 @@ function displaySurah(surahData) {
         let num = ayah.numberInSurah;
         let arabicNum = num.toString().replace(/\d/g, d => arabicNumbers[d]);
         let content = document.createElement("div");
+        // content.appendChild(ayahName);
         content.className = "ayah";
         content.id = num.toString();
         content.innerHTML = `${text} <label class="ayahNum">﴿${arabicNum}﴾</label>`;
         fragment.appendChild(content);
     });
-
+    let ayahName = document.createElement("div");   
+    ayahName.className = "ayahName";    
+    ayahName.innerHTML = `<span>${surahData.name} - ${surahData.ayahs.length} Ayahs</span>`;
+    read.appendChild(ayahName);
     read.appendChild(fragment);
 }
 
@@ -54,8 +66,8 @@ function getAudio(ayahElement, ayahIndex, surahData, allAyahs) {
         }
     });
 
-      let audioUrl = surahData.ayahs[ayahIndex].audio;
-  //  let audioUrl = `https://the-quran-project.github.io/Quran-Audio/Data/4/${surahData.number}_${ayahIndex + 1}.mp3`;
+    let audioUrl = surahData.ayahs[ayahIndex].audio;
+    // let audioUrl = `https://the-quran-project.github.io/Quran-Audio/Data/4/${surahData.number}_${ayahIndex + 1}.mp3`;
     let audioTag = document.createElement("audio");
     audioTag.src = audioUrl;
     ayahElement.appendChild(audioTag);
