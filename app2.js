@@ -54,8 +54,8 @@ function getAudio(ayahElement, ayahIndex, surahData, allAyahs) {
         }
     });
 
-    // let audioUrl = surahData.ayahs[ayahIndex].audio;
-    let audioUrl = `https://the-quran-project.github.io/Quran-Audio/Data/4/${surahData.number}_${ayahIndex + 1}.mp3`;
+      let audioUrl = surahData.ayahs[ayahIndex].audio;
+  //  let audioUrl = `https://the-quran-project.github.io/Quran-Audio/Data/4/${surahData.number}_${ayahIndex + 1}.mp3`;
     let audioTag = document.createElement("audio");
     audioTag.src = audioUrl;
     ayahElement.appendChild(audioTag);
