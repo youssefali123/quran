@@ -32,7 +32,7 @@ body {
     line-height: 2; /* Improved readability for Arabic text */
     direction: rtl;
     height: 100vh;
-    overflow: hidden; /* Assumes scrolling is handled by #read */
+   /* overflow: hidden; */ /* Assumes scrolling is handled by #read */
 }
 
 /* Specific class for divs needing padding and rounded corners */
