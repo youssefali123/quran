@@ -1,6 +1,10 @@
 // Global variables
 let read = document.getElementById("read");
 let currentSurahData;
+let side = document.querySelector(".side");
+function closeNav() {
+    side.classList.add("active");
+}
 let allSurahs = document.getElementById("allSurahs");
 // Fetch and display surah data
 function getAPI(surahNum) {
@@ -13,13 +17,19 @@ function getAPI(surahNum) {
             return res.json();
         })
         .then(data => {
-            for (let i = 0; i < data.data.surahs.length; i++) {
+            for (let i = 0; i < 114; i++) {
+                let mainDiv = document.createElement("div");
+                mainDiv.className = "mainDiv";
                 let div = document.createElement("div");
-                // option.value = data.data.surahs[i].number;
-                div.innerHTML = data.data.surahs[i].name;
+                let span = document.createElement("span");
+                span.innerHTML = data.data.surahs[i].number;
+                span.classList.add("menuSpan");
+                mainDiv.appendChild(div);
+                mainDiv.appendChild(span);
+                div.innerHTML = data.data.surahs[i].name.replace("سُورَةُ", "");
                 div.id = data.data.surahs[i].number;
-                div.setAttribute("onclick", "getAPI(this.id)");
-                allSurahs.appendChild(div);
+                div.setAttribute("onclick", "getAPI(this.id); closeNav()");
+                allSurahs.appendChild(mainDiv);
             }
             currentSurahData = data.data.surahs[surahNum - 1];
             displaySurah(currentSurahData);
@@ -159,6 +169,17 @@ window.addEventListener("load", () => {
     if (window.localStorage.getItem("dark") === "true") {
         document.body.classList.add("dark");
     }
+    let side = document.querySelector(".side");
+    side.classList.add("active");
+    if(side.classList.contains("active")){
+        let icon = document.createElement("i");
+        icon.classList.add("fa-solid");
+        icon.classList.add("fa-bars");
+        icon.classList.add("menuSpan");
+        side.prepend(icon);
+        // side.innerHTML = `<i class="fa-solid fa-bars menuSpan"></i>`;
+    }
+    
 });
 // document.addEventListener("click", (e) => {
 //     // Find the nearest ayah element, even if a child is clicked
@@ -190,3 +211,12 @@ document.addEventListener("touchmove", (event) => {
         event.preventDefault();
     }
 }, { passive: false });
+
+// for menuSpan
+
+document.addEventListener("click", (e) => {
+    if(e.target.classList.contains("menuSpan")){
+        document.querySelector(".side").classList.toggle("active");
+        // e.target.parentElement.parentElement.classList.toggle("active");
+    }
+});
