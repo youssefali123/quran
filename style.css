@@ -12,11 +12,12 @@
 /* Smooth scrolling for the entire page */
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 10%;
+    /* scroll-padding-top: 10%; */
 }
 
 /* Reset default styles */
 * {
+    scrollbar-color: rgb(5, 131, 153) rgb(28, 26, 42);;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -33,11 +34,15 @@ body {
     line-height: 2; /* Improved readability for Arabic text */
     direction: rtl;
     height: 100vh;
+    /* flex-wrap: wrap; */
     scroll-behavior: smooth;
     /* overflow: hidden;  */
     /* justify-content: flex-start; */
     align-items: flex-start;
     /* flex-direction: column; */
+    padding-top: 70px;
+    /* padding-bottom: -70px; */
+    user-select: none;
 }
 
 /* Specific class for divs needing padding and rounded corners */
@@ -59,16 +64,18 @@ body {
     border-right: 1px solid var(--primary-color);
     box-shadow: 0 4px 6px var(--shadow-color); /* Modern shadow */
     min-height: 200px;
+    max-height: calc(100vh - 100px);
     position: relative;
     overflow: auto;
     scroll-padding-top: 10%;
     scrollbar-width: none; /* Firefox */
+    /* scrollbar-track-color: red; */
     -ms-overflow-style: none; /* IE and Edge */
 }
 
 /* Flexible control panel */
 .container #choose {
-    width: 68%;
+    width: 98%;
     background-color: #828e8145;
     display: flex;
     justify-content: center;
@@ -116,7 +123,7 @@ body {
     padding: 20px; /* Increased for better spacing */
     flex-wrap: wrap;
     max-height: 90vh;
-    overflow: auto;
+    /* overflow: auto; */
     scroll-padding-top: 10%;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
@@ -184,6 +191,7 @@ body {
     padding: 11px;
     font-weight: bold;
     color: white;
+    
 }
 .ayahName span{
     font-weight: bold;
@@ -195,43 +203,71 @@ body {
 .side{
     width: 20%;
     background-color: #879395;
-    border-radius: 14px;
-    margin-top: 15px;
-    height: 100vh;
+    /* border-radius: 14px; */
+    margin-top: 65px;
+    /* height: 100vh; */
+    max-height: calc(100vh - 65px);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
     padding: 10px;
     gap: 10px;
-    position: absolute;
-    z-index: 100;
+    /* top: 10%; */
+    /* top: 0; */
+    /* position: absolute; */
+    z-index: 100000;
     align-content: flex-start;
     overflow: auto;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
     transition: all 0.3s cubic-bezier(.97,.84,.71,.89);
+    /* animation: sideOut 0.3s ease-in-out; */
     /* margin-top: 70px; */
 }
+@keyframes slideIn {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+@keyframes slideOut {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
 .active{
-    width: 6%;
+    /* display: none; */
+    margin-right: 0;
+    animation: slideIn 0.3s ease-in-out;
+    /* margin-right: calc(-20% + 4px); */
+    /* transform: translateX(100%); */
+    /* width: 6%; */
     /* height: fit-content;
     width: fit-content; */
-    height: 50px;
-    align-items: center;
+    /* height: 50px; */
+    /* align-items: center;
     cursor: pointer;
     overflow: hidden;
     padding: 15px;
     overflow: hidden;
-    color:coral;
+    color:coral; */
     /* font-size: 1.2em; */
     /* justify-content: center; */
 }
-.active .mainDiv{
-    justify-content: center;
+.notactive{
+    animation: slideOut 0.3s ease-in-out;
 }
+/* .active .mainDiv{
+    justify-content: center;
+} */
 .active .mainDiv div{
-    display: none;
+    /* display: none; */
 }
 /* .side div{
     width: calc((100% - 20px) / 2);
@@ -274,6 +310,86 @@ body {
 .side .mainDiv div{
     cursor: pointer;
 }
+.footer{
+    width: 100%;
+    height: 65px;
+    /* margin-bottom: 65px; */
+    background-color: #1a1a23;
+    padding: 10px;
+    /* border-radius: 26px; */
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 1px 2px 21px #4f8b7e;
+}
+.footer span{
+    margin-right: 8px;
+    color: #e45107;
+    font-weight: bold;
+    width: fit-content;
+    height: fit-content;
+    /* border-radius: 50px; */
+    padding: 5px;
+    /* background-color: var(--background-color); */
+}
+.footer span i{
+    background: #030302;
+    padding: 7px;
+    border-radius: 43px;
+    cursor: pointer;
+}
+.menu{
+    min-width: 120px;
+    
+    padding: 5px 1px;
+    
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #585051cc;
+    display: flex;
+    display: none;
+    flex-direction: column;
+    gap: 1px;
+    border-radius: 12px;
+    position: absolute;
+    
+}
+.menu span{
+    /* display: inline-block; */
+    padding: 0 5px;
+    /* background-color: #00BCD4; */
+    min-width: 90%;
+    /* height: fit-content; */
+    border-radius: inherit;
+    font-size: 1.3rem;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+.menu span:hover{
+    background-color: #fe8e06a9;
+}
+.sidepop{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.700);
+    display: none;
+    flex-wrap: wrap;
+    /* gap: 100px; */
+    transition: all 0.3s ease-in-out;
+    /* background-color: red; */
+    /* display: none; */
+    /* filter: blur(3px); */
+    z-index: 10000000000000;
+}
+.hidepop{
+    display: flex;
+}
 .dark .side .mainDiv{
     background-color: #040404; /* Better contrast in dark mode */
 }
@@ -300,20 +416,21 @@ body {
 
 @media screen and (max-width: 480px) {
     .container {
-        width: 85%;
-        /* min-width: 97%; */
+        width: 95%;
+        min-width: 97%;
         margin: 15px auto;
-        margin-right: 10%;
+        /* margin-right: 10%; */
     }
     .side{
-        width: 50%;
+        width: 45%;
         
         /* display: none; */
     }
     .active{
-        width: 10%;
-        background-color: red;
-        height: 50px;
+        /* width: 10%; */
+        /* margin-right: calc(-65% + 10px); */
+        /* background-color: red; */
+        /* height: 50px; */
     }
 
 }
