@@ -244,6 +244,7 @@ document.querySelector(".sidepop").addEventListener("click", (e) => {
   if (!e.target.classList.contains("menuSpan")) {
     document.querySelector(".sidepop").classList.toggle("hidepop");
     document.querySelector(".side").classList.toggle("active");
+    side.classList.toggle("notactive")
   }
 })
 let footer = document.querySelector(".footer");
