@@ -104,23 +104,6 @@ function getAudio(ayahElement, ayahIndex, surahData, allAyahs) {
   });
 }
 
-// Global click handler for ayahs
-// document.addEventListener("click", (e) => {
-//     if (e.target.className === "ayah" && currentSurahData) {
-//         let allAyahs = document.querySelectorAll(".ayah");
-//         let ayahIndex = parseInt(e.target.id) - 1;
-//         if (e.target.classList.contains("played")) {
-//             let audio = e.target.getElementsByTagName("audio")[0];
-//             if (audio) {
-//                 audio.pause();
-//                 e.target.classList.remove("played");
-//                 audio.remove();
-//             }
-//         } else {
-//             getAudio(e.target, ayahIndex, currentSurahData, allAyahs);
-//         }
-//     }
-// });
 document.addEventListener("click", (e) => {
   let ayahElement = e.target.closest(".ayah");
   if (ayahElement && currentSurahData) {
@@ -184,33 +167,8 @@ window.addEventListener("load", () => {
     icon.classList.add("fa-solid");
     icon.classList.add("fa-bars");
     icon.classList.add("menuSpan");
-    // side.prepend(icon);
-    // side.innerHTML = `<i class="fa-solid fa-bars menuSpan"></i>`;
   }
 });
-// document.addEventListener("click", (e) => {
-//     // Find the nearest ayah element, even if a child is clicked
-//     let ayahElement = e.target.closest('.ayah');
-
-//     // Proceed only if an ayah was clicked and surah data is available
-//     if (ayahElement && currentSurahData) {
-//         let allAyahs = document.querySelectorAll(".ayah");
-//         let ayahIndex = parseInt(ayahElement.id) - 1;
-
-//         // If the ayah is already playing
-//         if (ayahElement.classList.contains("played")) {
-//             let audio = ayahElement.getElementsByTagName("audio")[0];
-//             if (audio) {
-//                 audio.pause();                  // Pause the audio
-//                 ayahElement.classList.remove("played"); // Remove the "played" class
-//                 audio.remove();                 // Remove the audio element
-//             }
-//         } else {
-//             // If not playing, play the audio for this ayah
-//             getAudio(ayahElement, ayahIndex, currentSurahData, allAyahs);
-//         }
-//     }
-// });
 
 // Prevent multi-touch default behavior
 document.addEventListener(
@@ -224,9 +182,10 @@ document.addEventListener(
 );
 
 // for menuSpan
+let menuSpan = document.querySelector(".menuSpan");
 
 document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("menuSpan")) {
+ if (e.target.classList.contains("menuSpan")) {
     document.querySelector(".side").classList.toggle("active");
       if(!side.classList.contains("active")){
         side.classList.add("notactive");
@@ -238,13 +197,13 @@ document.addEventListener("click", (e) => {
           side.classList.remove("notactive");
           document.querySelector(".sidepop").classList.toggle("hidepop");
         }
-  }
+ }
 });
 document.querySelector(".sidepop").addEventListener("click", (e) => {
   if (!e.target.classList.contains("menuSpan")) {
-    document.querySelector(".sidepop").classList.toggle("hidepop");
-    document.querySelector(".side").classList.toggle("active");
-    side.classList.toggle("notactive")
+    // document.querySelector(".sidepop").classList.toggle("hidepop");
+    // document.querySelector(".side").classList.toggle("active");
+    menuSpan.click();
   }
 })
 let footer = document.querySelector(".footer");
@@ -300,7 +259,7 @@ document.addEventListener("contextmenu", (e) => {
 document.addEventListener("click", (e) => {
   menu.style.display = "none";
   if(!e.target.classList.contains("menuSpan")){
-    side.classList.add("active");
+    // side.classList.add("nonactive");
   }
 });
 
