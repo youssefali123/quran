@@ -151,10 +151,10 @@ document.addEventListener("click", (e) => {
 });
 
 // Dark mode toggle
-document.addEventListener("dblclick", () => {
-  document.body.classList.toggle("dark");
-  window.localStorage.setItem("dark", document.body.classList.contains("dark"));
-});
+// document.addEventListener("dblclick", () => {
+//   document.body.classList.toggle("dark");
+//   window.localStorage.setItem("dark", document.body.classList.contains("dark"));
+// });
 let mode = document.querySelectorAll("#mode p");
 mode.forEach((e) => {
   e.addEventListener("click", () => {
