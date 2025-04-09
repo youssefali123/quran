@@ -155,7 +155,20 @@ document.addEventListener("dblclick", () => {
   document.body.classList.toggle("dark");
   window.localStorage.setItem("dark", document.body.classList.contains("dark"));
 });
-
+let mode = document.querySelectorAll("#mode p");
+mode.forEach((e) => {
+  e.addEventListener("click", () => {
+    if(e.innerHTML ==  "dark"){
+      document.body.classList.add("dark");
+      window.localStorage.setItem("dark", document.body.classList.contains("dark"));
+    }
+    if(e.innerHTML ==  "light"){  
+      window.localStorage.setItem("dark", document.body.classList.contains("dark"));
+      document.body.classList.remove("dark");
+    }
+    // document.body.classList.toggle("dark");
+  });
+})
 window.addEventListener("load", () => {
   if (window.localStorage.getItem("dark") === "true") {
     document.body.classList.add("dark");
@@ -214,7 +227,7 @@ let fun;
 let text;
 
 // for long mouse down
-document.addEventListener("pointerdown", (e) => {
+document.addEventListener("touchstart", (e) => {
   if (
     e.target.classList.contains("ayah") ||
     e.target.classList.contains("ayahSpan")
@@ -226,11 +239,14 @@ document.addEventListener("pointerdown", (e) => {
       let left = e.clientX;
       menu.style.top = `${top + 10}px`;
       menu.style.left = `${left - 20}px`;
-    }, 500);
+    }, 600);
   }
 });
-document.addEventListener("pointerup", (e) => {
-  clearInterval(fun);
+document.addEventListener("touchend", (e) => {
+  clearTimeout(fun);
+});
+document.addEventListener("touchmove", (e) => {
+  clearTimeout(fun);
 });
 menu.children[0].addEventListener("click", () => {
   navigator.clipboard.writeText(text);
