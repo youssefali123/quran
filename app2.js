@@ -160,18 +160,32 @@ mode.forEach((e) => {
   e.addEventListener("click", () => {
     if(e.innerHTML ==  "dark"){
       document.body.classList.add("dark");
-      window.localStorage.setItem("dark", document.body.classList.contains("dark"));
+      document.body.classList.remove("darkBlue");
+      window.localStorage.setItem("dark", 1);
     }
     if(e.innerHTML ==  "light"){  
-      window.localStorage.setItem("dark", document.body.classList.contains("dark"));
+      window.localStorage.setItem("dark", 0);
       document.body.classList.remove("dark");
+      document.body.classList.remove("darkBlue");
+    }
+    if(e.innerHTML ==  "dark blue"){
+      document.body.classList.add("darkBlue");
+      document.body.classList.remove("dark");
+      window.localStorage.setItem("dark", 2);
     }
     // document.body.classList.toggle("dark");
   });
 })
 window.addEventListener("load", () => {
-  if (window.localStorage.getItem("dark") === "true") {
+  if (window.localStorage.getItem("dark") == 1) {
     document.body.classList.add("dark");
+  }
+  else if (window.localStorage.getItem("dark") == 2) {
+    document.body.classList.add("darkBlue");
+  }
+  else{
+    document.body.classList.remove("dark");
+    document.body.classList.remove("darkBlue");
   }
   let side = document.querySelector(".side");
   // side.classList.add("active");

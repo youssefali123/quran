@@ -161,8 +161,11 @@ body {
     background: var(--dark-background);
     color: var(--dark-text-color);
 }
-
-.dark .container {
+.darkBlue{
+    background-color: var(--dark-blue-background);
+    color: var(--dark-text-color);
+}
+.dark .container, .darkBlue .container{
     border-color: #e2e0dd; /* Adjusted for visibility */
     box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
 }
@@ -336,7 +339,7 @@ body {
     /* background-color: var(--background-color); */
 }
 .footer span:nth-child(2){
-    background-color: rgba(6, 78, 166, 0.96);
+    /* background-color: rgba(6, 78, 166, 0.96); */
     border-radius: 40px;
     width: 45px;
     display: flex;
@@ -356,6 +359,7 @@ body {
     font-size: 1.1rem;
     color: white;
     background-color:#e45107;
+    opacity: 0;
     border-radius: 20px;
     padding: 0 5px;
     transition: all 0.3s ease-in-out;
@@ -369,6 +373,9 @@ body {
     width: fit-content;
     height: fit-content;
     background-color: rgba(6, 78, 166, 0.96);
+}
+.footer span:nth-child(2):hover p{
+    opacity: 1;
 }
 .footer .settings{
     float: left;
@@ -461,13 +468,16 @@ body {
 .dark .side .mainDiv{
     background-color: #040404; /* Better contrast in dark mode */
 }
-.dark .side{
+.darkBlue .side .mainDiv{
+    background-color: var(--dark-blue-background);
+}
+.dark .side , .darkBlue .side{
     background-color: #2d2c36; /* Better contrast in dark mode */
 }
-.dark .side .mainDiv:hover{
+.dark .side .mainDiv:hover , .darkBlue .side .mainDiv:hover{
     background-color: #fe8e06df;
 }
-.side .mainDiv span{
+.side .mainDiv span {
     color: white;
     font-weight: bold;
 }
